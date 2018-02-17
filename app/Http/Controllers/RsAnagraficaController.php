@@ -7,11 +7,7 @@ use Illuminate\Http\Request;
 
 class RsAnagraficaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         // formato json paginati per 15
@@ -38,15 +34,16 @@ class RsAnagraficaController extends Controller
     {
         // richiamo il Model ed inietto i dati di $request //
         $mdlAnagrafica = new Anagrafica();
-        $mdlAnagrafica->nome        = $request->get('fldName');
+        $mdlAnagrafica->nome        = $request->get('fldNome');
         $mdlAnagrafica->cognome     = $request->get('fldCognome');
         $mdlAnagrafica->email       = $request->get('fldEmail');
 
-        $mdlAnagrafica->save();
+       $mdlAnagrafica->save();
 
         $data   = [
+           // 'name' => $request->get('fldName'),
             'status' => 200,
-            'msg'   => 'Record inserito',
+            'msg'   => 'Record anagrafica inserito',
             'idCreated' => $mdlAnagrafica->id
         ];
 
@@ -88,7 +85,27 @@ class RsAnagraficaController extends Controller
      */
     public function update(Request $request, Anagrafica $anagrafica)
     {
-        //
+        // === Istanza anagrafica del Model Anagrafica
+
+
+        $anagrafica->nome = $request->get('fldNome');
+        $anagrafica->cognome = $request->get('fldCognome');
+        $anagrafica->email = $request->get('fldEmail');
+
+        $anagrafica->save();
+
+        $data   = [
+            // 'name' => $request->get('fldName'),
+            'status' => 200,
+            'msg'   => 'Record anagrafica modificato',
+            'idCreated' => $anagrafica->id
+        ];
+
+        // === restituisco il JSON con $data
+        return response()
+            ->json($data, 200)
+            ->withCallback($request->get('callback'))
+            ;
     }
 
     /**
