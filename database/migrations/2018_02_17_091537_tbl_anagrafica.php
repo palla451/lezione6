@@ -15,6 +15,9 @@ class TblAnagrafica extends Migration
     {
         Schema::create('anagrafica', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nome',180);
+            $table->string('cognome',180);
+            $table->string('email',180);
             $table->timestamps();
         });
     }
