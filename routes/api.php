@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 // --- Route libere nel senso che sono raggiungibili senza middleware
 
 Route::post('auth/register', 'UserController@register');
-
 Route::post('auth/login', 'UserController@login');
 
 
@@ -35,5 +34,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('anagrafica','RsAnagraficaController');
+Route::group(['middleware'=> 'jwt.auth'], function (){
+
+    Route::resource('anagrafica','RsAnagraficaController');
+});
+
+
 
